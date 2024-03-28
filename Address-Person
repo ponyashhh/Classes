@@ -1,0 +1,160 @@
+#include <iostream>
+#include <string>
+using namespace std;
+class Address {
+string town;
+string street;
+int numHome;
+int numFlat;
+public:
+Address() : town(""), street(""), numHome(0), numFlat(0) {}
+Address(string town1, string street1, int home, int flat) {
+town = town1; street = street1; numHome = home; numFlat = 
+flat; 
+}
+Address(const Address& newone) {
+town = newone.town; street = newone.street;
+numHome = newone.numHome; numFlat = newone.numFlat;
+}
+~Address(){}
+string get_town() const { return town; }
+string get_street() const { return street; }
+int get_numHome() const { return numHome; }
+int get_numFlat() const { return numFlat; }
+Address& set_town(const string& newTown) {town = newTown; 
+return *this;}
+Address& set_street(const string& newStreet) {street = 
+newStreet; return *this;}
+Address& set_numHome(const int newHome) { numHome = newHome; 
+return *this; }
+Address& set_numFlat(const int newFlat) { numFlat = newFlat; 
+return *this; }
+string print_String() const {return town + " " + street + " " 
++ to_string(numHome) + " " + to_string(numFlat);}
+void print_Town() { cout << "Class: Address; town:" << town; }
+};
+class Person {
+string name;
+string surname;
+struct {
+int townCode;
+int phoneNumber;
+} phone;
+Address address;
+public:
+Person() : name(""), surname(""), phone{ 0, 0 }, address() {};
+Person(string name1, string surname1, int code, int Number, 
+const Address& address1) {
+name = name1; surname = surname1; phone.townCode = code; 
+phone.phoneNumber = Number; address = address1;
+}
+Person(const Person& newone) {
+name = newone.name; surname = newone.surname; 
+phone.townCode = newone.phone.townCode; phone.phoneNumber 
+= newone.phone.phoneNumber;
+address = newone.address;
+}
+~Person() {}
+string get_name() const { return name; }
+string get_surname() const { return surname; }
+int get_townCode() const { return phone.townCode; }
+int get_phoneNumber() const { return phone.phoneNumber; }
+const Address& get_address() const { return address; }
+Person& set_name(const string& newName) {name = newName; 
+return *this;}
+Person& set_surname(const string& newSurname) { surname = 
+newSurname; return *this; }
+Person& set_townCode(const int newCode) { phone.townCode = 
+newCode; return *this; }
+Person& set_phoneNumber(const int newNumber) { 
+phone.phoneNumber = newNumber; return *this; }
+Person& set_adress(const Address& newAddress) { address = 
+newAddress; return *this; }
+string print_String() const { return name + " " + surname + " 
+" + to_string(phone.townCode) 
++ " " + to_string(phone.phoneNumber) + " " +
+address.print_String(); }
+void print_Name() { cout << "Class: Person; name:" << name; }
+};
+int main() {
+//перший об'єкт з конструктором за замовчуванням
+cout << "Object#1: " << endl;
+Address adr1;
+adr1.get_town(); adr1.get_street(); adr1.get_numHome(); 
+adr1.get_numFlat(); 
+cout << "Empty address: " << adr1.print_String() << "; "; 
+cout << "Short empty address: ";
+adr1.print_Town(); 
+cout << endl;
+adr1.set_town("Kyiv"); adr1.set_street("Obolon"); 
+adr1.set_numHome(10); adr1.set_numFlat(5);
+cout << "Installed address: " << adr1.print_String() << "; ";
+cout << "Short installed address: ";
+adr1.print_Town();
+cout << endl;
+Person per1;
+per1.get_name(); per1.get_surname(); per1.get_townCode(); 
+per1.get_phoneNumber(); per1.get_address(); 
+cout << "Empty person data: " << per1.print_String() << "; ";
+cout << "Short empty person data: ";
+per1.print_Name();
+cout << endl;
+per1.set_name("Hope"); per1.set_surname("Milberg"); 
+per1.set_townCode(4637); per1.set_phoneNumber(6849302); 
+per1.set_adress(adr1);
+cout << "Installed person data: " << per1.print_String() << "; 
+";
+cout << "Short installed person data: ";
+per1.print_Name();
+cout << endl << endl;
+//другий об'єкт з конструктором з параметрами
+cout << "Object#2: " << endl;
+cout << "Enter the town: ";
+string town;
+getline(cin, town); 
+cout << "Enter the street: ";
+string street; 
+getline(cin, street); 
+cout << "Enter the house number: ";
+int houseNumber; 
+cin >> houseNumber; 
+cout << "Enter the flat number: ";
+int flatNumber; 
+cin >> flatNumber; 
+Address adr2(town, street, houseNumber, flatNumber);
+cout << "Original address: " << adr2.print_String() << "; ";
+cout << "Short address: ";
+adr2.print_Town();
+cout << endl; 
+cin.ignore(); 
+cout << "Enter the name: ";
+string name;
+getline(cin, name);
+cout << "Enter the surname: ";
+string surname;
+getline(cin, surname);
+cout << "Enter the town code: ";
+int townCode; 
+cin >> townCode;
+cout << "Enter the phone number: ";
+int phoneNumber;
+cin >> phoneNumber;
+Person per2(name, surname, townCode, phoneNumber, 
+Address(town, street, houseNumber, flatNumber));
+cout << "Person data: " << per2.print_String() << "; ";
+cout << "Short person data: ";
+per2.print_Name();
+cout << endl << endl; 
+//третій об'єкт з конструктором копіювання 
+cout << "Object#3: " << endl; 
+Address adr3(adr1);
+cout << "Copied address: " << adr3.print_String() << "; ";
+cout << "Short address: ";
+adr3.print_Town();
+cout << endl;
+Person per3(per1);
+cout << "Copied person data: " << per3.print_String() << "; ";
+cout << "Short person data: ";
+per3.print_Name();
+return 0;
+}
